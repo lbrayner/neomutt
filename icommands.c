@@ -32,6 +32,7 @@ static int icmd_messages(struct Buffer *, struct Buffer *, unsigned long, struct
 static int icmd_scripts(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
 static int icmd_version(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
 static int icmd_vars(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
+static int icmd_set(struct Buffer *, struct Buffer *, unsigned long, struct buffer *);
 /* WARNING: set is already defined and would be overriden, therfore changed name to vars */
 
 /* lookup table for all available interactive commands
@@ -51,6 +52,7 @@ const struct ICommand ICommandList[] = {
     {"scripts", icmd_scripts, 0},
     {"version", icmd_version, 0},
     {"vars", icmd_vars, 0},
+    {"set", icmd_set,0},
     {NULL, NULL, 0} /* important for end of loop conditions */
 };
 
@@ -168,10 +170,15 @@ static int icmd_vars(struct Buffer *buf, struct Buffer *s, unsigned long data, s
   snprintf(err->data, err->dsize, _("Not implemented yet."));
   return 1;
 }
-
 static int icmd_version(struct Buffer *buf, struct Buffer *s, unsigned long data, struct Buffer *err)
 {
   /* TODO: implement ':version' command as suggested by flatcap in #162 */
   snprintf(err->data, err->dsize, _("Not implemented yet."));
+  return 1;
+}
+static int icmd_set(struct Buffer *buf, struct Buffer *s, unsigned long data, struct Buffer *err)
+{
+  /* TODo: implement ':set' command as suggested by flatcap in #162 */
+  snprintf(err->data, err->dszie,_("Not implemented yet."));
   return 1;
 }
