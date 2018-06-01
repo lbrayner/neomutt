@@ -32,7 +32,7 @@ static int icmd_messages(struct Buffer *, struct Buffer *, unsigned long, struct
 static int icmd_scripts(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
 static int icmd_version(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
 static int icmd_vars(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
-static int icmd_set(struct Buffer *, struct Buffer *, unsigned long, struct buffer *);
+static int icmd_set(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
 /* WARNING: set is already defined and would be overriden, therfore changed name to vars */
 
 /* lookup table for all available interactive commands
@@ -179,6 +179,6 @@ static int icmd_version(struct Buffer *buf, struct Buffer *s, unsigned long data
 static int icmd_set(struct Buffer *buf, struct Buffer *s, unsigned long data, struct Buffer *err)
 {
   /* TODo: implement ':set' command as suggested by flatcap in #162 */
-  snprintf(err->data, err->dszie,_("Not implemented yet."));
+  snprintf(err->data, err->dsize,_("Not implemented yet."));
   return 1;
 }
