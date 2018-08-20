@@ -21,6 +21,8 @@
 #include "mutt/mutt.h"
 #include "protos.h"
 #include "summary.h"
+#include "pager.h"
+#include "muttlib.h"
 
 /* prototypes for interactive commands */
 static int icmd_test(struct Buffer *, struct Buffer *, unsigned long, struct Buffer *);
@@ -180,5 +182,24 @@ static int icmd_set(struct Buffer *buf, struct Buffer *s, unsigned long data, st
 {
   /* TODo: implement ':set' command as suggested by flatcap in #162 */
   snprintf(err->data, err->dsize,_("Not implemented yet."));
+  int i;
+  char tempfile[PATH_MAX];
+  FILE *fpout = NULL;
+
+  mutt_mktemp(tempfile, sizeof(tempfile));
+  fpout = mutt_file_fopen(tempfile, "w");
+  if (!fpout)
+  {
+     mutt_error(_("Could not create temporary file"));
+     return 0;
+  }
+  struct Pager info = { 0 };
+  i = mutt_pager("set", tempfile, MUTT_PAGER_RETWINCH, &info);
+  if (!i)
+  {
+     mutt_error(_("Could not create temporary file"));
+     return 0;
+  }
+/*  mutt_enter_command(); */
   return 1;
 }
