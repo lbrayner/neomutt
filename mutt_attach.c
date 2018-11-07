@@ -632,16 +632,20 @@ int mutt_view_attachment(FILE *fp, struct Body *a, int flag, struct Email *e,
 
 return_error:
 
+  if (!entry || !entry->xneomuttkeep)
+  {
+    if (fp && tempfile[0])
+    {
+      /* Restore write permission so mutt_file_unlink can open the file for writing */
+      mutt_file_chmod_add(tempfile, S_IWUSR);
+      mutt_file_unlink(tempfile);
+    }
+    else if (unlink_tempfile)
+      unlink(tempfile);
+  }
+
   if (entry)
     rfc1524_free_entry(&entry);
-  if (fp && tempfile[0])
-  {
-    /* Restore write permission so mutt_file_unlink can open the file for writing */
-    mutt_file_chmod_add(tempfile, S_IWUSR);
-    mutt_file_unlink(tempfile);
-  }
-  else if (unlink_tempfile)
-    unlink(tempfile);
 
   if (pagerfile[0])
     mutt_file_unlink(pagerfile);
