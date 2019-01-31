@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# consider --lua
+
+./configure --disable-doc --gpgme --notmuch --with-ui --gnutls \
+    --mixmaster --sasl --tokyocabinet --prefix=/usr/local
