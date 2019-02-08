@@ -150,10 +150,15 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
 #endif
           if (m && (m->magic == MUTT_NOTMUCH) && m->name)
       {
+        char * uri = m->name;
+        char const query[7] = "&query=";
+        char const * needle;
         char *p = NULL;
-        p = m->name;
-        mutt_debug(2, "nm: uri: %s\n",p);
-        p = nm_decode_uri(p);
+
+        needle = strstr(uri, query);
+        uri = needle + strlen(query);
+        mutt_debug(2, "nm: uri: %s\n",uri);
+        p = nm_decode_uri(uri);
         mutt_debug(2, "nm: decoded uri: %s\n",p);
         mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
