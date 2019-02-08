@@ -152,6 +152,15 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
       {
         mutt_str_strfcpy(tmp, m->name, sizeof(tmp));
       }
+      else if (m && (m->magic == MUTT_NOTMUCH))
+      {
+        char *p = NULL;
+        p = m->realpath;
+        mutt_debug(2, "nm: uri: %s\n",p);
+        p = nm_decode_uri(p);
+        mutt_debug(2, "nm: decoded uri: %s\n",p);
+        mutt_str_strfcpy(tmp, p, sizeof(tmp));
+      }
       else if (m && !mutt_buffer_is_empty(&m->pathbuf))
       {
         mutt_str_strfcpy(tmp, mailbox_path(m), sizeof(tmp));
@@ -410,3 +419,5 @@ void menu_status_line(char *buf, size_t buflen, struct Menu *menu, const char *p
   mutt_expando_format(buf, buflen, 0, menu ? menu->statuswin->cols : buflen, p,
                       status_format_str, (unsigned long) menu, MUTT_FORMAT_NO_FLAGS);
 }
+
+// vim: shiftwidth=2
