@@ -2265,6 +2265,94 @@ char *nm_get_description(struct Context *ctx)
   return NULL;
 }
 
+int hex2decimal(char hex)
+{
+    switch(hex)
+    {
+        case '0':
+            return 0;
+        case '1':
+            return 1;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+        case '4':
+            return 4;
+        case '5':
+            return 5;
+        case '6':
+            return 6;
+        case '7':
+            return 7;
+        case '8':
+            return 8;
+        case '9':
+            return 9;
+        case 'A':
+            return 10;
+        case 'B':
+            return 11;
+        case 'C':
+            return 12;
+        case 'D':
+            return 13;
+        case 'E':
+            return 14;
+        case 'F':
+            return 15;
+    }
+
+    return -1;
+}
+
+int uri_decode(char *dst, size_t l, const char *src)
+{
+    int higher;
+    int lower;
+    int character;
+    int size = 0;
+    while (src && *src && (l != 0))
+    {
+        l--;
+        size++;
+        if (*src == '%')
+        {
+            higher = hex2decimal(*++src);
+            lower = hex2decimal(*++src);
+            character = higher * 16 + lower;
+            *dst++ = character;
+            src++;
+            continue;
+        }
+        *dst++ = *src++;
+    }
+
+    return size;
+}
+
+/**
+ * nm_decode_uri - decoded a URI previously encoded with nm_uri_from_query
+ * @param uri    The URI to decode
+ * @retval DECODED_URI Success
+ * @retval NULL        Failure
+ */
+char *nm_decode_uri(char * uri)
+{
+    if(!uri)
+        return NULL;
+
+    int const length = strlen(uri)+1;
+
+    char * decoded_uri = mutt_mem_malloc(length);
+
+    int size = uri_decode(decoded_uri,strlen(uri),uri);
+
+    decoded_uri[size] = '\0';
+
+    return decoded_uri;
+}
+
 /**
  * nm_description_to_path - Find a path from a folder's description
  * @param desc   Description
