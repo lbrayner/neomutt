@@ -150,15 +150,15 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
 #endif
           if (m && (m->magic == MUTT_NOTMUCH) && m->name)
       {
-        char * decoded_uri;
         char * nm_args;
         char * uri = m->name;
+        char decoded_uri[strlen(uri)+1];
         char * needle;
         char const nm_prefix[11] = "<notmuch> ";
         char const query[7] = "&query=";
         char *p = NULL;
 
-        decoded_uri = nm_decode_uri(uri);
+        nm_decode_uri(decoded_uri,uri);
 
         needle = strstr(decoded_uri, query);
         nm_args = needle + strlen(query);
@@ -167,8 +167,6 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
             + strlen(nm_args) + 1);
         strcpy(p,nm_prefix);
         strcat(p,nm_args);
-
-        free(decoded_uri);
         mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
       else if (m && !mutt_buffer_is_empty(&m->pathbuf))
