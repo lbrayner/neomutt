@@ -140,12 +140,17 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
     {
 #ifdef USE_NOTMUCH
       char *p = NULL;
-      p = Context->realpath;
-      mutt_debug(2, "nm: uri: %s\n",p);
-      p = nm_decode_uri(p);
-      mutt_debug(2, "nm: decoded uri: %s\n",p);
-      if (Context && Context->magic == MUTT_NOTMUCH && p)
-        mutt_str_strfcpy(tmp, p, sizeof(tmp));
+      if (Context && Context->magic == MUTT_NOTMUCH)
+      {
+          p = nm_get_description(Context);
+          mutt_debug(2, "nm: description: %s\n",p);
+          if(!p)
+          {
+              p = nm_decode_uri(Context->realpath);
+              mutt_debug(2, "nm: decoded uri: %s\n",p);
+          }
+          mutt_str_strfcpy(tmp, p, sizeof(tmp));
+      }
       else
 #endif
 #ifdef USE_COMPRESSED
