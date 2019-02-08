@@ -146,15 +146,26 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
           mutt_debug(2, "nm: description: %s\n",p);
           if(!p)
           {
+              char * decoded_uri;
               char * uri = Context->realpath;
+              char const nm_prefix[12] = "notmuch >> ";
+              mutt_debug(2, "nm: prefix is %s\n",nm_prefix);
               char const query[7] = "&query=";
               char const * needle;
 
               needle = strstr(uri, query);
               uri = needle + strlen(query);
 
-              p = nm_decode_uri(uri);
-              mutt_debug(2, "nm: decoded uri: %s\n",p);
+              decoded_uri = nm_decode_uri(uri);
+
+              mutt_debug(2, "nm: decoded uri: %s\n",decoded_uri);
+
+              p = mutt_mem_malloc(strlen(nm_prefix)
+                      + strlen(decoded_uri) + 1);
+              mutt_debug(2, "nm: allocated memory\n");
+              strcpy(p,nm_prefix);
+              mutt_debug(2, "nm: p is %s\n",p);
+              strcat(p,decoded_uri);
           }
           mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
