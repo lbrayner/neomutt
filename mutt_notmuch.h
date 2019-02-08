@@ -36,7 +36,7 @@ char *nm_header_get_folder(struct Header *h);
 int nm_update_filename(struct Context *ctx, const char *old, const char *new, struct Header *h);
 bool nm_normalize_uri(char *new_uri, const char *orig_uri, size_t new_uri_sz);
 char *nm_uri_from_query(struct Context *ctx, char *buf, size_t buflen);
-char *nm_decode_uri(char * uri);
+void nm_decode_uri(char * buf, char const * const uri);
 bool nm_message_is_still_queried(struct Context *ctx, struct Header *hdr);
 
 void nm_query_window_backward(void);

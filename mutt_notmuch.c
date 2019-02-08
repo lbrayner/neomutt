@@ -2333,24 +2333,19 @@ int uri_decode(char *dst, size_t l, const char *src)
 
 /**
  * nm_decode_uri - decoded a URI previously encoded with nm_uri_from_query
+ * @param buf    The URI to decode
  * @param uri    The URI to decode
  * @retval DECODED_URI Success
  * @retval NULL        Failure
  */
-char *nm_decode_uri(char * uri)
+void nm_decode_uri(char * buf, char const * const uri)
 {
     if(!uri)
         return NULL;
 
-    int const length = strlen(uri)+1;
+    int size = uri_decode(buf,strlen(uri),uri);
 
-    char * decoded_uri = mutt_mem_malloc(length);
-
-    int size = uri_decode(decoded_uri,strlen(uri),uri);
-
-    decoded_uri[size] = '\0';
-
-    return decoded_uri;
+    buf[size] = '\0';
 }
 
 /**
