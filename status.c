@@ -147,20 +147,21 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
           if(!p)
           {
               char * decoded_uri;
+              char * nm_args;
               char * uri = Context->realpath;
+              char * needle;
               char const nm_prefix[11] = "<notmuch> ";
               char const query[7] = "&query=";
-              char const * needle;
-
-              needle = strstr(uri, query);
-              uri = needle + strlen(query);
 
               decoded_uri = nm_decode_uri(uri);
 
+              needle = strstr(decoded_uri, query);
+              nm_args = needle + strlen(query);
+
               p = mutt_mem_malloc(strlen(nm_prefix)
-                      + strlen(decoded_uri) + 1);
+                      + strlen(nm_args) + 1);
               strcpy(p,nm_prefix);
-              strcat(p,decoded_uri);
+              strcat(p,nm_args);
 
               free(decoded_uri);
           }
