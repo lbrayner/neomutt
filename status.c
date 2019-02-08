@@ -166,6 +166,7 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
             + strlen(decoded_uri) + 1);
         strcpy(p,nm_prefix);
         strcat(p,decoded_uri);
+        free(decoded_uri);
         mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
       else if (m && !mutt_buffer_is_empty(&m->pathbuf))
