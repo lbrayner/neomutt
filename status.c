@@ -146,7 +146,14 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
           mutt_debug(2, "nm: description: %s\n",p);
           if(!p)
           {
-              p = nm_decode_uri(Context->realpath);
+              char * uri = Context->realpath;
+              char const query[7] = "&query=";
+              char const * needle;
+
+              needle = strstr(uri, query);
+              uri = needle + strlen(query);
+
+              p = nm_decode_uri(uri);
               mutt_debug(2, "nm: decoded uri: %s\n",p);
           }
           mutt_str_strfcpy(tmp, p, sizeof(tmp));
