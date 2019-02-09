@@ -29,6 +29,7 @@
 #include "config.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include "mutt/mutt.h"
 #include "context.h"
 #include "format_flags.h"
@@ -142,33 +143,33 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
       char *p = NULL;
       if (Context && Context->magic == MUTT_NOTMUCH)
       {
-          p = nm_get_description(Context);
-          mutt_debug(2, "nm: description: %s\n",p);
-          if(!p)
-          {
-              char const nm_prefix[11] = "<notmuch> ";
-              char const query[7] = "&query=";
-              char * const uri = Context->realpath;
+        p = nm_get_description(Context);
+        mutt_debug(2, "nm: description: %s\n",p);
+        if(!p)
+        {
+          char const nm_prefix[11] = "<notmuch> ";
+          char const query[7] = "&query=";
+          char * const uri = Context->realpath;
 
-              char decoded_uri[strlen(uri)+1];
-              char * nm_args;
-              char * needle;
+          char decoded_uri[strlen(uri)+1];
+          char * nm_args;
+          char * needle;
 
-              nm_decode_uri(decoded_uri,uri);
+          nm_decode_uri(decoded_uri,uri);
 
-              mutt_debug(2, "nm: decoded uri is (%s)\n",decoded_uri);
+          mutt_debug(2, "nm: decoded uri is (%s)\n",decoded_uri);
 
-              needle = strstr(decoded_uri, query);
-              nm_args = needle + strlen(query);
+          needle = strstr(decoded_uri, query);
+          nm_args = needle + strlen(query);
 
-              mutt_debug(2, "nm: notmuch arguments are (%s)\n",nm_args);
+          mutt_debug(2, "nm: notmuch arguments are (%s)\n",nm_args);
 
-              p = mutt_mem_malloc(strlen(nm_prefix)
-                      + strlen(nm_args) + 1);
-              strcpy(p,nm_prefix);
-              strcat(p,nm_args);
-          }
-          mutt_str_strfcpy(tmp, p, sizeof(tmp));
+          p = mutt_mem_malloc(strlen(nm_prefix)
+              + strlen(nm_args) + 1);
+          strcpy(p,nm_prefix);
+          strcat(p,nm_args);
+        }
+        mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
       else
 #endif
