@@ -157,18 +157,15 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
         char const nm_prefix[11] = "<notmuch> ";
         char const query[8] = "&query=";
         char * const uri = m->realpath;
-        char *p = NULL;
-
         char decoded_uri[mutt_str_strlen(uri)+1];
-        char * nm_args;
-        char * needle;
+        char *p = NULL;
 
         nm_decode_uri(decoded_uri,uri);
 
         mutt_debug(2, "nm: decoded uri is (%s)\n",decoded_uri);
 
-        needle = strstr(decoded_uri, query);
-        nm_args = needle + mutt_str_strlen(query);
+        char * const needle = strstr(decoded_uri, query);
+        char * const nm_args = needle + mutt_str_strlen(query);
 
         mutt_debug(2, "nm: notmuch arguments are (%s)\n",nm_args);
 
