@@ -157,25 +157,26 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
         char const nm_prefix[11] = "<notmuch> ";
         char const query[8] = "&query=";
         char * const uri = m->realpath;
+        char *p = NULL;
 
-        char decoded_uri[strlen(uri)+1];
+        char decoded_uri[mutt_str_strlen(uri)+1];
         char * nm_args;
         char * needle;
-        char *p = NULL;
 
         nm_decode_uri(decoded_uri,uri);
 
         mutt_debug(2, "nm: decoded uri is (%s)\n",decoded_uri);
 
         needle = strstr(decoded_uri, query);
-        nm_args = needle + strlen(query);
+        nm_args = needle + mutt_str_strlen(query);
 
         mutt_debug(2, "nm: notmuch arguments are (%s)\n",nm_args);
 
-        p = mutt_mem_malloc(strlen(nm_prefix)
-            + strlen(nm_args) + 1);
-        strcpy(p,nm_prefix);
-        strcat(p,nm_args);
+        int const dsize = mutt_str_strlen(nm_prefix)
+          + mutt_str_strlen(nm_args) + 1;
+        p = mutt_mem_malloc(dsize);
+        mutt_str_strfcpy(p,nm_prefix,dsize);
+        mutt_str_strcat(p,dsize,nm_args);
         mutt_str_strfcpy(tmp, p, sizeof(tmp));
       }
       else if (m && !mutt_buffer_is_empty(&m->pathbuf))
