@@ -46,6 +46,9 @@
 #include "sort.h"
 #include "tags.h"
 #include "thread.h"
+#ifdef USE_NOTMUCH
+#include "mutt_notmuch.h"
+#endif
 
 /**
  * enum FlagChars - Index into the FlagChars variable ($flag_chars)
@@ -559,6 +562,14 @@ static const char *index_format_str(char *buf, size_t buflen, size_t col, int co
       /* fallthrough */
 
     case 'b':
+#ifdef USE_NOTMUCH
+      if (ctx && ctx->magic == MUTT_NOTMUCH)
+      {
+        char const nm_vfolder[10] = "<notmuch>";
+        mutt_str_strfcpy(buf, nm_vfolder, buflen);
+      }
+      else
+#endif
       if (ctx)
       {
         p = strrchr(ctx->path, '/');
