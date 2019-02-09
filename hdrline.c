@@ -56,6 +56,9 @@
 #include "muttlib.h"
 #include "ncrypt/ncrypt.h"
 #include "sort.h"
+#ifdef USE_NOTMUCH
+#include "mutt_notmuch.h"
+#endif
 
 /* These Config Variables are only used in hdrline.c */
 struct MbTable *C_CryptChars; ///< Config: User-configurable crypto flags: signed, encrypted etc.
@@ -640,6 +643,14 @@ static const char *index_format_str(char *buf, size_t buflen, size_t col, int co
       /* fallthrough */
 
     case 'b':
+#ifdef USE_NOTMUCH
+      if (m && (m->magic == MUTT_NOTMUCH))
+      {
+        char const nm_vfolder[10] = "<notmuch>";
+        mutt_str_strfcpy(buf, nm_vfolder, buflen);
+      }
+      else
+#endif
       if (m)
       {
         p = strrchr(mailbox_path(m), '/');
