@@ -11,6 +11,7 @@ doc/makedoc
 neomutt
 pgpewrap
 test/neomutt-test
+test/config-test
 
 # Build products
 *.o
