@@ -150,11 +150,17 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
 #endif
           if (m && (m->magic == MUTT_NOTMUCH) && m->name)
       {
+        mutt_str_strfcpy(tmp, m->name, sizeof(tmp));
+      }
+      else if (m && (m->magic == MUTT_NOTMUCH))
+      {
         char const nm_prefix[11] = "<notmuch> ";
-        char const query[7] = "&query=";
-        char * const uri = m->name;
+        char const query[8] = "&query=";
+        char * const uri = m->realpath;
         char decoded_uri[mutt_str_strlen(uri)+1];
         char *p = NULL;
+
+        mutt_debug(2, "nm: uri is (%s)\n",uri);
 
         nm_decode_uri(decoded_uri,uri);
 
