@@ -1868,10 +1868,8 @@ int uri_decode(char *dst, size_t l, const char *src)
 
 /**
  * nm_decode_uri - decoded a URI previously encoded with nm_uri_from_query
- * @param buf    The URI to decode
+ * @param buf    A buffer
  * @param uri    The URI to decode
- * @retval DECODED_URI Success
- * @retval NULL        Failure
  */
 void nm_decode_uri(char * buf, char const * const uri)
 {
