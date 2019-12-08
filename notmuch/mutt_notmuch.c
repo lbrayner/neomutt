@@ -1873,9 +1873,6 @@ int uri_decode(char *dst, size_t l, const char *src)
  */
 void nm_decode_uri(char * buf, char const * const uri)
 {
-    if(!uri)
-        return NULL;
-
     int size = uri_decode(buf,strlen(uri),uri);
 
     buf[size] = '\0';

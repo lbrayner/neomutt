@@ -42,6 +42,8 @@
 #include "options.h"
 #include "protos.h"
 #include "sort.h"
+#include "string.h"
+#include "notmuch/mutt_notmuch.h"
 
 /* These Config Variables are only used in status.c */
 struct MbTable *C_StatusChars; ///< Config: Indicator characters for the status bar
