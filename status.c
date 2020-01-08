@@ -160,7 +160,6 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
         char const query[8] = "&query=";
         char * const uri = m->realpath;
         char decoded_uri[mutt_str_strlen(uri)+1];
-        char *p = NULL;
 
         nm_decode_uri(decoded_uri,uri);
 
@@ -173,10 +172,11 @@ static const char *status_format_str(char *buf, size_t buflen, size_t col, int c
 
         int const dsize = mutt_str_strlen(nm_prefix)
           + mutt_str_strlen(nm_args) + 1;
-        p = mutt_mem_malloc(dsize);
+        char *p = mutt_mem_malloc(dsize);
         mutt_str_strfcpy(p,nm_prefix,dsize);
         mutt_str_strcat(p,dsize,nm_args);
         mutt_str_strfcpy(tmp, p, sizeof(tmp));
+        FREE(&p);
       }
       else if (m && !mutt_buffer_is_empty(&m->pathbuf))
       {
